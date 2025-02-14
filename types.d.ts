@@ -12,5 +12,13 @@ interface Book {
     video: string;
     summary: string;
     isLoanedBook: boolean;
-    dueDate: string;
+    dueDate: string; 
+}
+
+interface AuthCredentials {
+    email: string;
+    password: string;
+    fullName: string;
+    universityId: number;
+    universityCard: string;
 }

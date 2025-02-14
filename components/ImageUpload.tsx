@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
 import config from "@/lib/config";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
 
 const {
   env: {
@@ -42,13 +43,25 @@ export default function ImageUpload({
 }) {
   const ikUploadRef = useRef(null);
   const [file, setFile] = useState<{ filePath: string | null }>(null);
+  const { toast } = useToast();
 
   const onError = (error: any) => {
     console.log(error);
+
+    toast({
+      title: "Image upload failed",
+      description: error.message,
+      variant: "destructive",
+    });
   };
   const onSuccess = (response: any) => {
     setFile(response);
     onFileChange(response.filePath);
+
+    toast({
+      title: "Image uploaded successfully",
+      description: `${response.filePath} uploaded successfully`,
+    });
   };
 
   return (
@@ -92,7 +105,7 @@ export default function ImageUpload({
           alt={file.filePath}
           path={file.filePath}
           width={500}
-          height={500}
+          height={300}
         />
       )}
     </ImageKitProvider>
